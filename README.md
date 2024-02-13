@@ -1,4 +1,4 @@
-[Info diagram](https://github.com/denismakalich/Realize/blob/main/InfoTable.png)
+![Info diagram](https://github.com/denismakalich/Realize/blob/main/InfoTable.png)
 
 classDiagram
     User --> RoleEnum
