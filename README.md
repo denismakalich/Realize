@@ -1,3 +1,5 @@
+#InfoTable.png
+
 classDiagram
     User --> RoleEnum
     
