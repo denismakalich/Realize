@@ -1,8 +1,9 @@
 ![Info diagram](https://github.com/denismakalich/Realize/blob/main/InfoTable.png)
 
+```
 classDiagram
     User --> RoleEnum
-    
+
     Event --> User
     Event --> Platform
     Event --> EventRegistration
@@ -86,3 +87,4 @@ classDiagram
         string Description
         DateTime TimeEdit
     }
+```
