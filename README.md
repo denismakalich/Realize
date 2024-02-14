@@ -1,6 +1,5 @@
-![Info diagram](https://github.com/denismakalich/Realize/blob/main/InfoTable.png)
 
-```
+```mermaid
 classDiagram
     User --> RoleEnum
 
