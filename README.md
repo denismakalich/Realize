@@ -1,7 +1,7 @@
 
 ```mermaid
 classDiagram
-    User --> RoleEnum
+    User --> Role
 
     Event --> User
     Event --> Platform
@@ -11,14 +11,11 @@ classDiagram
     Event --> UserRegistrationEvent
     Event --> UserUnregistrationEvent
     EventPlan <-- Event
+    Platform ..|> User
 
-    Notification --> NotificationEnum
-
-    class RoleEnum{
-        None
-        Organisator
-        Landlord
-        Company
+    class Role{
+        Id
+        Title
     }
 
     class User{
@@ -26,9 +23,9 @@ classDiagram
         string Name
         string SecondName
         Email Email
-        string Password
-        List Roles
-        List PhotoUrl
+        string PasswordHash
+        string PasswordSold
+        List~Role~ Roles
     }
 
     class Event{
@@ -37,9 +34,8 @@ classDiagram
         string Description
         DateTime EventStartTime
         Guid PlatformId
-        List EventRegistration
-        List EventPlan
-        List PhotoUrl
+        List~EventRegistration~ EventRegistrations 
+        List~EventPlan~ Plans
     }
 
     class Platform{
@@ -49,7 +45,6 @@ classDiagram
         string Description
         string Adress
         int Capacity
-        List PhotoUrl
     }
 
     class EventRegistration{
@@ -64,21 +59,6 @@ classDiagram
         Reminder, 
         RegistrationConfirmation,
         Rejected
-    }
-
-    class Notification{
-        NotificationEnum NotificationEnum
-        string Text
-        DateTime SendTime
-    }
-
-    class NotificationEnum{
-        None,
-        Reminder,
-        ConfirmationOfRegistration,
-        EventCancellation,
-        ChangeOfSchedule,
-        InvitationToAnEvent
     }
 
     class EventPlan{
