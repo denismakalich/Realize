@@ -24,6 +24,7 @@ classDiagram
         string SecondName
         Email Email
         string Password
+        byte[] PasswordSalt
         List~Role~ Roles
     }
 
