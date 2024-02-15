@@ -49,7 +49,7 @@ classDiagram
 
     class ActivityRegistration{
         Guid Id
-        Guid EventId
+        Guid ActivityId
         Guid UserId
         Status Status
     }
