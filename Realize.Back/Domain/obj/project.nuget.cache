@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "89EwCwdo9tarQpxv9XK9KFkRYTCGnQLqlpd3zUNobKprE42V+cBKEt5cLtQi93MeWG0K86wQF43v0w9Ym4X6gg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\makad\\OneDrive\\Рабочий стол\\github\\Designingcompilers\\Realize.Back\\Domain\\Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\makad\\.nuget\\packages\\bcrypt.net\\0.1.0\\bcrypt.net.0.1.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'BCrypt.Net 0.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "BCrypt.Net",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}
