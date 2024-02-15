@@ -62,6 +62,7 @@ classDiagram
     }
 
     class EventPlan{
+        Guid Id
         string Title
         string Description
         DateTime TimeEdit
