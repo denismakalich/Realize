@@ -23,8 +23,7 @@ classDiagram
         string Name
         string SecondName
         Email Email
-        string PasswordHash
-        string PasswordSold
+        string Password
         List~Role~ Roles
     }
 
