@@ -3,14 +3,14 @@
 classDiagram
     User --> Role
 
-    Event --> User
-    Event --> Platform
-    Event --> EventRegistration
-    EventRegistration --> StatusEnum
-    Event --> CreateEventEvent
-    Event --> UserRegistrationEvent
-    Event --> UserUnregistrationEvent
-    EventPlan <-- Event
+    Activity --> User
+    Activity --> Platform
+    Activity --> ActivityRegistration
+    ActivityRegistration --> StatusEnum
+    Activity --> CreateActivityEvent
+    Activity --> UserRegistrationEvent
+    Activity --> UserUnregistrationEvent
+    ActivityPlan <-- Activity
     Platform ..|> User
 
     class Role{
@@ -28,14 +28,14 @@ classDiagram
         List~Role~ Roles
     }
 
-    class Event{
+    class Activity{
         Guid Id
         string Title
         string Description
-        DateTime EventStartTime
+        DateTime ActivityStartTime
         Guid PlatformId
-        List~EventRegistration~ EventRegistrations 
-        List~EventPlan~ Plans
+        List~ActivityRegistration~ ActivityRegistrations 
+        List~ActivityPlan~ Plans
     }
 
     class Platform{
@@ -47,7 +47,7 @@ classDiagram
         int Capacity
     }
 
-    class EventRegistration{
+    class ActivityRegistration{
         Guid Id
         Guid EventId
         Guid UserId
@@ -61,7 +61,7 @@ classDiagram
         Rejected
     }
 
-    class EventPlan{
+    class ActivityPlan{
         Guid Id
         string Title
         string Description
