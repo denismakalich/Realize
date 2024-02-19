@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
     User --> Role
     Activity --> User
@@ -91,3 +92,4 @@ classDiagram
         string Width
         string Longitude
     }
+```
