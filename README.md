@@ -1,8 +1,5 @@
-
-```mermaid
 classDiagram
     User --> Role
-
     Activity --> User
     Activity --> Platform
     Activity --> ActivityRegistration
@@ -12,6 +9,10 @@ classDiagram
     Activity --> UserUnregistrationEvent
     ActivityPlan <-- Activity
     Platform ..|> User
+    Region <-- City
+    Country <-- Region
+    City <-- Platform
+    Coordinat <-- Platform
 
     class Role{
         Id
@@ -32,8 +33,9 @@ classDiagram
         Guid Id
         string Title
         string Description
-        DateTime ActivityStartTime
+        DateTimeOfSet ActivityStartTime
         Guid PlatformId
+        Guid CityId
         List~ActivityRegistration~ ActivityRegistrations 
         List~ActivityPlan~ Plans
     }
@@ -43,12 +45,12 @@ classDiagram
         Guid LandlordId
         string Title
         string Description
-        string Adress
+        Coordinat Adress
+        Guid CityId
         int Capacity
     }
 
     class ActivityRegistration{
-        Guid Id
         Guid ActivityId
         Guid UserId
         Status Status
@@ -62,9 +64,30 @@ classDiagram
     }
 
     class ActivityPlan{
-        Guid Id
         string Title
         string Description
-        DateTime TimeEdit
+        DateTimeOfSet TimeEdit
     }
-```
+
+    class Country{
+        Guid Id
+        string Title
+    }
+
+    class Region{
+        Guid Id
+        string Title
+        Guid CountryId
+    }
+
+    class City{
+        Guid Id
+        string Title
+        Guid CountryId
+        Guid RegionId
+    }
+
+    class Coordinat{
+        string Width
+        string Longitude
+    }
