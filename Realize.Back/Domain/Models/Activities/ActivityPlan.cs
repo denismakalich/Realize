@@ -2,53 +2,30 @@ namespace Domain.Models.Activities;
 
 public class ActivityPlan
 {
-    public Guid Id { get; private init; }
-    public string Title { get; private set; }
-    public string Description { get; private set; }
-    public DateTime TimeEdit { get; private set; }
+    public string Title { get; private init; }
+    public string Description { get; private init; }
+    public DateTimeOffset TimeEdit { get; private init; }
 
-    public ActivityPlan(Guid id, string title, string description)
-    {
-        if (id == Guid.Empty)
-        {
-            throw new ArgumentException("Id can't be null", nameof(id));
-        }
-
-        Id = id;
-        SetTitle(title);
-        SetDescription(description);
-        SetTimeEdit();
-    }
-
-    public static ActivityPlan Create(string title, string description)
-    {
-        Guid id = Guid.NewGuid();
-
-        return new ActivityPlan(id, title, description);
-    }
-
-    public void SetTitle(string title)
+    public ActivityPlan(string title, string description)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
             throw new ArgumentException("The title cannot be null or whitespace.", nameof(title));
         }
 
-        Title = title;
-    }
 
-    public void SetDescription(string description)
-    {
         if (string.IsNullOrWhiteSpace(description))
         {
             throw new ArgumentException("The description cannot be null or whitespace.", nameof(description));
         }
 
+        Title = title;
         Description = description;
+        TimeEdit = DateTimeOffset.Now;
     }
 
-    public void SetTimeEdit()
+    public static ActivityPlan Create(string title, string description)
     {
-        TimeEdit = DateTime.Now;
+        return new ActivityPlan(title, description);
     }
 }

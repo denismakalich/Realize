@@ -7,21 +7,23 @@ public class Activity
     public Guid Id { get; private init; }
     public string Title { get; private set; }
     public string Description { get; private set; }
-    public DateTime ActivityStartTime { get; private set; }
+    public DateTimeOffset ActivityStartTime { get; private set; }
     public Guid PlatformId { get; private set; }
-    private List<ActivityRegistration> _activityRegistrations { get; } = new();
-    public IReadOnlyCollection<ActivityRegistration> ReadActivityRegistrations => _activityRegistrations.AsReadOnly();
-    private List<ActivityPlan> _activityPlans { get; } = new();
-    public IReadOnlyCollection<ActivityPlan> ReadActivityPlans => _activityPlans.AsReadOnly();
-    private List<IEvent> _events { get; } = new();
-    public IReadOnlyCollection<IEvent> ReadEvents => _events.AsReadOnly();
+    public Guid CityId { get; private set; }
+    private List<ActivityRegistration> ActivityRegistrations { get; }
+    private List<ActivityPlan> ActivityPlans { get; }
+    public List<IEvent> _events { get; set; }
 
     public Activity(
         Guid id,
         string title,
         string description,
-        DateTime activityStartTime,
-        Guid platformId)
+        DateTimeOffset activityStartTime,
+        Guid platformId,
+        Guid cityId,
+        List<ActivityRegistration> activityRegistrations,
+        List<ActivityPlan> activityPlans,
+        List<IEvent> events)
     {
         if (id == Guid.Empty)
         {
@@ -33,13 +35,35 @@ public class Activity
         SetDescription(description);
         SetActivityStartTime(activityStartTime);
         SetPlatform(platformId);
+        SetCity(cityId);
+        ActivityRegistrations = activityRegistrations;
+        ActivityPlans = activityPlans;
+        _events = events;
     }
 
-    public static Activity Create(string title, string description, DateTime activityStartTime, Guid platformId)
+    public static Activity Create(
+        string title,
+        string description,
+        DateTimeOffset activityStartTime,
+        Guid platformId,
+        Guid cityId)
     {
         Guid id = Guid.NewGuid();
 
-        return new Activity(id, title, description, activityStartTime, platformId);
+        var activity = new Activity(
+            id,
+            title,
+            description,
+            activityStartTime,
+            platformId,
+            cityId,
+            new List<ActivityRegistration>(),
+            new List<ActivityPlan>(),
+            new List<IEvent>());
+
+        activity._events.Add(new CreateActivityEvent(Guid.NewGuid(), $"Создано событие {title}", id));
+
+        return activity;
     }
 
     public void SetTitle(string title)
@@ -62,7 +86,7 @@ public class Activity
         Description = description;
     }
 
-    public void SetActivityStartTime(DateTime startTime)
+    public void SetActivityStartTime(DateTimeOffset startTime)
     {
         ArgumentNullException.ThrowIfNull(startTime);
 
@@ -77,5 +101,15 @@ public class Activity
         }
 
         PlatformId = id;
+    }
+
+    public void SetCity(Guid id)
+    {
+        if (id == Guid.Empty)
+        {
+            throw new ArgumentException("Id can't be null", nameof(id));
+        }
+
+        CityId = id;
     }
 }

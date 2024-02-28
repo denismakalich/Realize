@@ -4,44 +4,30 @@ namespace Domain.Models.Activities;
 
 public class ActivityRegistration
 {
-    public Guid Id { get; private init; }
-    public Guid ActivityId { get; private set; }
-    public Guid UserId { get; private set; }
+    public Guid ActivityId { get; private init; }
+    public Guid UserId { get; private init; }
     public StatusEnum Status { get; private set; }
 
-    public ActivityRegistration(Guid id, Guid activityId, Guid userId, StatusEnum status)
+    public ActivityRegistration(Guid activityId, Guid userId, StatusEnum status)
     {
-        Id = id;
-        SetActivity(activityId);
-        SetUser(userId);
+        if (activityId == Guid.Empty)
+        {
+            throw new ArgumentException("Id can't be null", nameof(activityId));
+        }
+
+        if (userId == Guid.Empty)
+        {
+            throw new ArgumentException("Id can't be null", nameof(userId));
+        }
+
+        UserId = userId;
+        ActivityId = activityId;
         SetStatus(status);
     }
 
     public static ActivityRegistration Create(Guid activityId, Guid userId, StatusEnum status = StatusEnum.None)
     {
-        Guid id = Guid.NewGuid();
-
-        return new ActivityRegistration(id, activityId, userId, status);
-    }
-
-    public void SetActivity(Guid id)
-    {
-        if (id == Guid.Empty)
-        {
-            throw new ArgumentException("Id can't be null", nameof(id));
-        }
-
-        ActivityId = id;
-    }
-
-    public void SetUser(Guid id)
-    {
-        if (id == Guid.Empty)
-        {
-            throw new ArgumentException("Id can't be null", nameof(id));
-        }
-
-        UserId = id;
+        return new ActivityRegistration(activityId, userId, status);
     }
 
     public void SetStatus(StatusEnum status = StatusEnum.Rejected) => Status = status;

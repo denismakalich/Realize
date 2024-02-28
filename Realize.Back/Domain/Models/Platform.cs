@@ -1,3 +1,5 @@
+using Domain.Models.Locations;
+
 namespace Domain.Models;
 
 public class Platform
@@ -6,10 +8,12 @@ public class Platform
     public Guid LandlordId { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
-    public string Adress { get; private set; }
+    public Coordinat Adress { get; private set; }
+    public Guid CityId { get; private set; }
     public int Capacity { get; private set; }
 
-    public Platform(Guid id, Guid landlordId, string title, string description, string adress, int capacity)
+    public Platform(Guid id, Guid landlordId, string title, string description, Coordinat adress, Guid cityId,
+        int capacity)
     {
         if (id == Guid.Empty)
         {
@@ -21,14 +25,16 @@ public class Platform
         SetTitle(title);
         SetDescription(description);
         SetAdress(adress);
-        Capacity = capacity;
+        SetCity(cityId);
+        SetCapacity(capacity);
     }
 
-    public Platform Create(Guid landlordId, string title, string description, string adress, int capacity)
+    public Platform Create(Guid landlordId, string title, string description, Coordinat adress, Guid cityId,
+        int capacity)
     {
         Guid id = Guid.NewGuid();
 
-        return new Platform(id, landlordId, title, description, adress, capacity);
+        return new Platform(id, landlordId, title, description, adress, cityId, capacity);
     }
 
     public void SetLandlord(Guid id)
@@ -61,14 +67,21 @@ public class Platform
         Description = description;
     }
 
-    public void SetAdress(string adress)
+    public void SetAdress(Coordinat adress)
     {
-        if (string.IsNullOrWhiteSpace(adress))
-        {
-            throw new ArgumentException("The adress cannot be null or whitespace.", nameof(adress));
-        }
+        ArgumentNullException.ThrowIfNull(adress);
 
         Adress = adress;
+    }
+
+    public void SetCity(Guid id)
+    {
+        if (id == Guid.Empty)
+        {
+            throw new ArgumentException("Id can't be null", nameof(id));
+        }
+
+        CityId = id;
     }
 
     public void SetCapacity(int capacity)
