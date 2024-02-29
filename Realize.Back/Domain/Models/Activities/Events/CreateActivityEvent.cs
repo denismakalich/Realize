@@ -1,4 +1,4 @@
-namespace Domain.Models.Activities.Event;
+namespace Domain.Models.Activities.Events;
 
 public class CreateActivityEvent : IEvent
 {

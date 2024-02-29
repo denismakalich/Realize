@@ -1,12 +1,12 @@
-namespace Domain.Models.Activities.Event;
+namespace Domain.Models.Activities.Events;
 
-public class UserUnregistrationEvent : IEvent
+public class UserRegistrationEvent : IEvent
 {
     public Guid Id { get; }
     public string Data { get; }
     public Guid ActivityId { get; }
 
-    public UserUnregistrationEvent(Guid id, string data, Guid activityId)
+    public UserRegistrationEvent(Guid id, string data, Guid activityId)
     {
         ArgumentNullException.ThrowIfNull(id);
         ArgumentNullException.ThrowIfNull(activityId);
@@ -31,10 +31,10 @@ public class UserUnregistrationEvent : IEvent
         ActivityId = activityId;
     }
 
-    public static UserUnregistrationEvent Create(string data, Guid activityId)
+    public static UserRegistrationEvent Create(string data, Guid activityId)
     {
         Guid id = Guid.NewGuid();
 
-        return new UserUnregistrationEvent(id, data, activityId);
+        return new UserRegistrationEvent(id, data, activityId);
     }
 }

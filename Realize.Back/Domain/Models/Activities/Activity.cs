@@ -1,4 +1,4 @@
-using Domain.Models.Activities.Event;
+using Domain.Models.Activities.Events;
 
 namespace Domain.Models.Activities;
 

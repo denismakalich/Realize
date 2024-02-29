@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Domain.Models.Users.Events;
 
 namespace Domain.Models.Users;
 
@@ -7,9 +8,7 @@ public class User
     public Guid Id { get; private init; }
     public string Name { get; private set; }
     public string SecondName { get; private set; }
-    public Email Email { get; private set; }
-    public string Password { get; private set; }
-    private byte[] PasswordSalt { get; set; }
+    public Account Account { get; private init; }
     private List<Role> Roles { get; }
     public IReadOnlyCollection<Role> ReadRoles => Roles.AsReadOnly();
 
@@ -17,9 +16,7 @@ public class User
         Guid id,
         string name,
         string secondName,
-        Email email,
-        string password,
-        byte[] passwordSalt,
+        Account account,
         List<Role> roles)
     {
         if (id == Guid.Empty)
@@ -30,20 +27,16 @@ public class User
         Id = id;
         SetName(name);
         SetSecondName(secondName);
-        SetEmail(email);
-        Password = password;
-        PasswordSalt = passwordSalt;
+        Account = account;
         Roles = roles;
     }
-
-    public User Create(string name, string secondName, Email email, string password)
+    
+    public User Create(string name, string secondName, Account account)
     {
         Guid id = Guid.NewGuid();
         List<Role> roles = new List<Role>();
-        byte[] salt = GenerateSalt();
-        string passwordHash = GenerateHash(password, salt);
 
-        return new User(id, name, secondName, email, passwordHash, salt, roles);
+        return new User(id, name, secondName, account, roles);
     }
 
     public void SetName(string name)
@@ -64,54 +57,5 @@ public class User
         }
 
         SecondName = secondName;
-    }
-
-    public void SetEmail(Email email)
-    {
-        ArgumentNullException.ThrowIfNull(email);
-
-        Email = email;
-    }
-
-    public void SetPassword(string password)
-    {
-        if (string.IsNullOrWhiteSpace(password))
-        {
-            throw new ArgumentException("The password cannot be null or whitespace.", nameof(password));
-        }
-
-        if (VerifyPassword(password, Password))
-        {
-            string newPassword = GenerateHash(password, PasswordSalt);
-
-            Password = newPassword;
-        }
-    }
-
-    private byte[] GenerateSalt()
-    {
-        const int saltLenght = 64;
-        byte[] salt = new byte[saltLenght];
-
-        using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(salt);
-        }
-
-        return salt;
-    }
-
-    private string GenerateHash(string password, byte[] salt)
-    {
-        string saltString = Convert.ToBase64String(salt);
-        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, saltString);
-
-        return hashedPassword;
-    }
-
-    // Должен ли он быть в домене?
-    public bool VerifyPassword(string password, string hashedPassword)
-    {
-        return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
     }
 }
