@@ -1,9 +1,9 @@
 namespace Domain.Models.Enums;
 
-public enum StatusEnum
+public enum RegistrationStatus
 {
     None,
     Reminder,
-    RegistrationConfirmation,
+    Confirm,
     Rejected
 }

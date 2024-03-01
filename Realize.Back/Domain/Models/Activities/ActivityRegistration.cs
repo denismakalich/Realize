@@ -1,14 +1,16 @@
+using Domain.Exceptions;
 using Domain.Models.Enums;
+using Domain.Models.Users;
 
 namespace Domain.Models.Activities;
 
 public class ActivityRegistration
 {
     public Guid ActivityId { get; private init; }
-    public Guid UserId { get; private init; }
-    public StatusEnum Status { get; private set; }
+    public Guid UserId { get; private set; }
+    public RegistrationStatus Status { get; private set; }
 
-    public ActivityRegistration(Guid activityId, Guid userId, StatusEnum status)
+    public ActivityRegistration(Guid activityId, Guid userId, RegistrationStatus status)
     {
         if (activityId == Guid.Empty)
         {
@@ -25,10 +27,16 @@ public class ActivityRegistration
         SetStatus(status);
     }
 
-    public static ActivityRegistration Create(Guid activityId, Guid userId, StatusEnum status = StatusEnum.None)
+    public static ActivityRegistration Create(Activity activity, User user)
     {
-        return new ActivityRegistration(activityId, userId, status);
+        return new ActivityRegistration(activity.Id, user.Id, activity.Status);
     }
 
-    public void SetStatus(StatusEnum status = StatusEnum.Rejected) => Status = status;
+    public void SetStatus(RegistrationStatus registrationStatus)
+    {
+        if (registrationStatus != RegistrationStatus.Reminder)
+            throw new StatusException("Status will be reminder");
+
+        Status = registrationStatus;
+    }
 }

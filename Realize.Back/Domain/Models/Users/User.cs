@@ -1,6 +1,3 @@
-using System.Security.Cryptography;
-using Domain.Models.Users.Events;
-
 namespace Domain.Models.Users;
 
 public class User
@@ -9,15 +6,12 @@ public class User
     public string Name { get; private set; }
     public string SecondName { get; private set; }
     public Account Account { get; private init; }
-    private List<Role> Roles { get; }
-    public IReadOnlyCollection<Role> ReadRoles => Roles.AsReadOnly();
 
     public User(
         Guid id,
         string name,
         string secondName,
-        Account account,
-        List<Role> roles)
+        Account account)
     {
         if (id == Guid.Empty)
         {
@@ -28,15 +22,13 @@ public class User
         SetName(name);
         SetSecondName(secondName);
         Account = account;
-        Roles = roles;
     }
-    
+
     public User Create(string name, string secondName, Account account)
     {
         Guid id = Guid.NewGuid();
-        List<Role> roles = new List<Role>();
 
-        return new User(id, name, secondName, account, roles);
+        return new User(id, name, secondName, account);
     }
 
     public void SetName(string name)

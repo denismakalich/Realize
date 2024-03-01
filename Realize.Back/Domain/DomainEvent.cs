@@ -1,4 +1,4 @@
-namespace Domain.Models.Users.Events;
+namespace Domain;
 
 public abstract class DomainEvent
 {

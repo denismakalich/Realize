@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
-using Domain.Models.Users.Events;
-using Domain.Models.Users.Exceptions;
+using Domain.Exceptions;
 
 namespace Domain.Models.Users;
 
@@ -10,8 +9,6 @@ public sealed class Account : EntityWithEvents
     public Guid Id { get; private init; }
     public string? Email { get; private set; }
     public string? NormalizedEmail { get; private set; }
-    public string? PasswordResetToken { get; private set; }
-    public DateTime? PasswordResetTokenExpirationDate { get; private set; }
     public DateTime CreatedDate { get; private init; }
     public DateTime UpdatedDate { get; private set; }
     public IReadOnlyCollection<byte>? Salt { get; private set; }
@@ -33,7 +30,6 @@ public sealed class Account : EntityWithEvents
         SetPassword(password);
 
         CreatedDate = UpdatedDate = DateTime.UtcNow;
-        RaiseEvent(new CreatedEvent(Id, DateTime.UtcNow));
     }
 
     public static Account Create(string email, string password)
@@ -100,42 +96,6 @@ public sealed class Account : EntityWithEvents
             var b = hmac.ComputeHash(passwordHashArray);
             return Xor(a, b) && Xor(passwordHash, passwordHashArray);
         }
-    }
-
-    [MemberNotNull(nameof(PasswordResetToken))]
-    [MemberNotNull(nameof(PasswordResetTokenExpirationDate))]
-    public void PasswordResetRequest()
-    {
-        var now = DateTime.UtcNow;
-        if (PasswordResetToken is null || PasswordResetTokenExpirationDate < now)
-        {
-            PasswordResetToken = $"{Guid.NewGuid()}|{Email}";
-        }
-
-        PasswordResetTokenExpirationDate = now.AddDays(1);
-
-        RaiseEvent(new PasswordResetRequestEvent(Id, now));
-        SetUpdatedDate();
-    }
-
-    public void PasswordReset(string resetPasswordKey, string newPassword)
-    {
-        if (string.IsNullOrEmpty(newPassword))
-        {
-            throw new ArgumentException("Value cannot be null or empty.", nameof(newPassword));
-        }
-
-        ThrowIfNotEmailAuthorization();
-
-        if (resetPasswordKey != PasswordResetToken || DateTime.UtcNow >= PasswordResetTokenExpirationDate)
-        {
-            throw new ArgumentException("Invalid reset password key.");
-        }
-
-        SetPassword(newPassword);
-        PasswordResetToken = null;
-        PasswordResetTokenExpirationDate = null;
-        SetUpdatedDate();
     }
 
     public void ChangePassword(string currentPassword, string newPassword)

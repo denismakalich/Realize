@@ -1,4 +1,4 @@
-namespace Domain.Models.Users.Exceptions;
+namespace Domain.Exceptions;
 
 public class AccountException: Exception
 {

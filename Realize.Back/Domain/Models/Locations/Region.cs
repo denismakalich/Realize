@@ -20,11 +20,6 @@ public class Region
         SetCountry(CountryId);
     }
 
-    public static Region Create(string title, Guid countryId)
-    {
-        return new Region(Guid.NewGuid(), title, countryId);
-    }
-
     [MemberNotNull]
     public void SetTitle(string title)
     {

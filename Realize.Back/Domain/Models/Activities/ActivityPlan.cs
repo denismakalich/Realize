@@ -4,9 +4,10 @@ public class ActivityPlan
 {
     public string Title { get; private init; }
     public string Description { get; private init; }
-    public DateTimeOffset TimeEdit { get; private init; }
+    public DateTimeOffset StartTime { get; private set; }
+    public DateTimeOffset EndTime { get; private set; }
 
-    public ActivityPlan(string title, string description)
+    public ActivityPlan(string title, string description, DateTimeOffset startTime, DateTimeOffset endTime)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -18,14 +19,15 @@ public class ActivityPlan
         {
             throw new ArgumentException("The description cannot be null or whitespace.", nameof(description));
         }
-
+        
         Title = title;
         Description = description;
-        TimeEdit = DateTimeOffset.Now;
+        StartTime = startTime;
+        EndTime = endTime;
     }
 
-    public static ActivityPlan Create(string title, string description)
+    public static ActivityPlan Create(string title, string description, DateTimeOffset startTime, DateTimeOffset endTime)
     {
-        return new ActivityPlan(title, description);
+        return new ActivityPlan(title, description, startTime, endTime);
     }
 }

@@ -18,11 +18,6 @@ public class Country
         SetTitle(title);
     }
 
-    public static Country Create(string title)
-    {
-        return new Country(Guid.NewGuid(), title);
-    }
-
     [MemberNotNull]
     public void SetTitle(string title)
     {

@@ -8,11 +8,11 @@ public class Platform
     public Guid LandlordId { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
-    public Coordinat Adress { get; private set; }
+    public GeoPoint Adress { get; private set; }
     public Guid CityId { get; private set; }
     public int Capacity { get; private set; }
 
-    public Platform(Guid id, Guid landlordId, string title, string description, Coordinat adress, Guid cityId,
+    public Platform(Guid id, Guid landlordId, string title, string description, GeoPoint adress, Guid cityId,
         int capacity)
     {
         if (id == Guid.Empty)
@@ -29,7 +29,7 @@ public class Platform
         SetCapacity(capacity);
     }
 
-    public Platform Create(Guid landlordId, string title, string description, Coordinat adress, Guid cityId,
+    public Platform Create(Guid landlordId, string title, string description, GeoPoint adress, Guid cityId,
         int capacity)
     {
         Guid id = Guid.NewGuid();
@@ -67,7 +67,7 @@ public class Platform
         Description = description;
     }
 
-    public void SetAdress(Coordinat adress)
+    public void SetAdress(GeoPoint adress)
     {
         ArgumentNullException.ThrowIfNull(adress);
 

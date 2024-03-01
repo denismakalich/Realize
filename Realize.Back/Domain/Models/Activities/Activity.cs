@@ -1,4 +1,5 @@
-using Domain.Models.Activities.Events;
+using Domain.Models.Enums;
+using Domain.Models.Users;
 
 namespace Domain.Models.Activities;
 
@@ -8,11 +9,11 @@ public class Activity
     public string Title { get; private set; }
     public string Description { get; private set; }
     public DateTimeOffset ActivityStartTime { get; private set; }
+    public RegistrationStatus Status { get; private set; } = RegistrationStatus.Reminder;
     public Guid PlatformId { get; private set; }
     public Guid CityId { get; private set; }
     private List<ActivityRegistration> ActivityRegistrations { get; }
     private List<ActivityPlan> ActivityPlans { get; }
-    public List<IEvent> _events { get; set; }
 
     public Activity(
         Guid id,
@@ -22,8 +23,7 @@ public class Activity
         Guid platformId,
         Guid cityId,
         List<ActivityRegistration> activityRegistrations,
-        List<ActivityPlan> activityPlans,
-        List<IEvent> events)
+        List<ActivityPlan> activityPlans)
     {
         if (id == Guid.Empty)
         {
@@ -38,7 +38,6 @@ public class Activity
         SetCity(cityId);
         ActivityRegistrations = activityRegistrations;
         ActivityPlans = activityPlans;
-        _events = events;
     }
 
     public static Activity Create(
@@ -58,10 +57,7 @@ public class Activity
             platformId,
             cityId,
             new List<ActivityRegistration>(),
-            new List<ActivityPlan>(),
-            new List<IEvent>());
-
-        activity._events.Add(new CreateActivityEvent(Guid.NewGuid(), $"Создано событие {title}", id));
+            new List<ActivityPlan>());
 
         return activity;
     }
@@ -112,4 +108,12 @@ public class Activity
 
         CityId = id;
     }
+
+    public void AddRegistration(User user) => ActivityRegistrations.Add(ActivityRegistration.Create(this, user));
+
+    public void SetConfirm(User user)
+        => ActivityRegistrations.Single(x => x.UserId == user.Id).SetStatus(RegistrationStatus.Confirm);
+
+    public void SetReject(User user)
+        => ActivityRegistrations.Single(x => x.UserId == user.Id).SetStatus(RegistrationStatus.Rejected);
 }
