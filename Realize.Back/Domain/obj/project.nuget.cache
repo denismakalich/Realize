@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Y0fypf7lD4EDnCzEeLy5WxV42uZLDKMw4kLeQ2J2JPj19+8GOTBUjhuhHb+w5U7ju5OMA1+G+MctSoQuLN/ngA==",
+  "dgSpecHash": "/aLN243kVTNoI9fPZBkWVmXTWPpjPea1EA/pvwoWt+e522ziwQrk6E4yLhTz6JBy+gsLOhw37RNMJ44Xf90/4w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\makad\\OneDrive\\Рабочий стол\\github\\Realize\\Realize.Back\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\makad\\OneDrive\\Рабочий стол\\Realize\\Realize.Back\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\makad\\.nuget\\packages\\bcrypt.net\\0.1.0\\bcrypt.net.0.1.0.nupkg.sha512"
   ],

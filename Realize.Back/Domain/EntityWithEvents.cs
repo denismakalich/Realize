@@ -1,5 +1,6 @@
 namespace Domain;
 
+// abstract class for events
 public abstract class EntityWithEvents
 {
     private readonly List<DomainEvent> _domainEvents;
